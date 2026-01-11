@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список растений</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #00ca58; }
+        ul { list-style-type: none; padding: 0; }
+        li { 
+            background: #f8f9fa; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 5px; 
+            border-left: 5px solid #00ca58;
+        }
+        a { 
+            text-decoration: none; 
+            color: #00ca58; 
+            font-weight: bold; 
+        }
+        a:hover { text-decoration: underline; }
+        .empty { color: #666; font-style: italic; }
+        .back-link { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🌿 Список растений</h1>
+    
+    {% if plants %}
+        <ul>
+            {% for plant in plants %}
+                <li>
+                    <a href="/plants/{{ plant.id }}/">{{ plant.name }}</a>
+                    {% if plant.latin_name %}
+                        <br><small><em>{{ plant.latin_name }}</em></small>
+                    {% endif %}
+                    {% if plant.description %}
+                        <p>{{ plant.description|truncatechars:100 }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">Пока нет растений. Добавьте их через <a href="/admin/">админку</a>.</p>
+    {% endif %}
+    
+    <div class="back-link">
+        <a href="/">← На главную</a> | 
+        <a href="/admin/" target="_blank">Админка</a>
+    </div>
+</body>
+</html>
