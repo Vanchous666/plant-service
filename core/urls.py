@@ -1,22 +1,39 @@
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+﻿"""
+URL configuration for plant_service project.
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.http import HttpResponse
 
+# ===== ТЕСТОВЫЕ VIEW =====
+def test_view(request):
+    """Тестовая страница для проверки URL"""
+    return HttpResponse("🎉 УРА! Django работает правильно! Тест пройден!")
+
+def home_view(request):
+    """Главная страница"""
+    return HttpResponse("🌱 Добро пожаловать в Plant Service! <br><a href='/plants/'>Перейти к растениям</a>")
+
+def about_view(request):
+    """Страница "О нас" """
+    return HttpResponse("📖 Plant Service - система учета растений")
+
+# ===== ОСНОВНЫЕ URL =====
 urlpatterns = [
+    # 1. ТЕСТ (должен работать первым!)
+    path('test/', test_view, name='test'),
+    
+    # 2. ГЛАВНАЯ СТРАНИЦА
+    path('', home_view, name='home'),
+    
+    # 3. О НАС
+    path('about/', about_view, name='about'),
+    
+    # 4. ПРИЛОЖЕНИЕ PLANTS (все маршруты plants/)
+    path('plants/', include('plants.urls')),
+    
+    # 5. АДМИНКА
     path('admin/', admin.site.urls),
 ]
+
+print("=== core/urls.py загружен ===")
